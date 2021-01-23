@@ -135,3 +135,50 @@ set3 = set1 - set2
 
 `range`函数: `range(n) = range(0,n)`，都是左开右闭；`range(0,10,2)`，表示每次递增2
 
+## 7. print函数
+
+### 7.1 %用法
+
+```python
+"""整数"""
+print('%o' %20) # 八进制
+# %d, %x
+
+"""浮点数"""
+print('%.3f', %1.11) # 保留3位小数，默认6位
+print('%e', %1.11) # 科学计数法
+print('%.7g', %1.11) # 有效数字
+
+"""round函数"""
+round(1.1123) # 四舍五入
+
+"""字符串"""
+print('%10s', %'Hello') # 右对齐
+print('%-10s', %'Hello') # 左对齐
+```
+
+### 7.2 format函数
+
+```python
+>>> print('{} {}'.format('hello','world'))  # 不带字段
+hello world
+>>> print('{0} {1}'.format('hello','world'))  # 带数字编号
+hello world
+>>> print('{0} {1} {0}'.format('hello','world'))  # 打乱顺序
+hello world hello
+>>> print('{1} {1} {0}'.format('hello','world'))
+world world hello
+>>> print('{a} {tom} {a}'.format(tom='hello',a='world'))  # 带关键字
+world hello world
+```
+
+< （默认）左对齐、> 右对齐、^ 中间对齐、= （只用于数字）在小数点后进行补齐
+
+取位数“{:4s}”、"{:.2f}"等
+
+```python
+print('{0} is {0:>10.2f}'.format(1.123))
+# 取2位小数，10位右对齐，前面0表示format中元素序号
+'{:*^30}'.format('centered')  # 使用“*”填充
+```
+
