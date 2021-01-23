@@ -55,3 +55,83 @@ print(a[0:2])
 
 **创建**：`tuple=()`, `tuple=(123, )`, 如果不加逗号，创建出来的就不是 元组（tuple），而是指 `123` 这个数了
 
+**删除**：`del tuple`
+
+**元组运算符**：![image-20210123094247810](source\image-20210123094247810.png)
+
+## 4 DIct
+
+**创建**：`dict = {key1 : value1, key2 : value2 }`
+
+**修改**：
+
+```python
+dict1={'liangdianshui':'111111' ,'twowater':'222222' ,'两点水':'333333'}
+# 新增
+dict1['jack']='444444'
+# 修改
+dict1['liangdianshui']='555555'
+```
+
+**删除**
+
+```python
+# 通过 key 值，删除对应的元素
+del dict1['twowater']
+# 删除所有元素
+dict1.clear()
+#删除字典
+del dict1
+```
+
+**遍历**
+
+```python
+animal = {'cat':1, 'dog':2, 'pig':3}
+
+print('This is for values')
+for number in animal.values():
+	print(number,end=' ')
+print(' ')
+
+print('This is for keys')
+for key in animal.keys():
+	print(key,end=' ')
+print(' ')
+
+print('This is for items')
+for key,number in animal.items():
+    print(key+' : '+str(number))
+```
+
+**其他函数和方法**：
+
+![image-20210123100533955](source\image-20210123100533955.png)
+
+## 5 Set
+
+**创建**：
+
+使用set函数，将一个列表转换为集合 `set1=set([123,456,789])`
+
+其中元素不允许重复，可以使用此特性将列表里重复元素去掉
+
+**添加**：`set1.add(100)`
+
+**删除**：`set1.remove(456)`
+
+**运算**：
+
+```python
+# 交集
+set3 = set1 & set2
+# 并集
+set3 = set1 | set2
+#差集
+set3 = set1 - set2
+```
+
+## 6. 控制语句
+
+`range`函数: `range(n) = range(0,n)`，都是左开右闭；`range(0,10,2)`，表示每次递增2
+
