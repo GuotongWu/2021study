@@ -394,3 +394,74 @@ class ClassA(object): # 继承object类
 
 ### 10.5 类的继承
 
+[inheritance.py](inheritance.py)
+
+类型的判断：
+
+```python
+isinstance(123, int)
+# 输出bool值
+```
+
+### 10.6 多态
+
+[polymorfic.py](polymorfic.py)
+
+### 10.7 类的访问控制
+
+```python
+def __init__(self, name, age, account):
+    # 可以公开访问
+    self.name = name
+    # 编程规范的私有变量，仍然可以访问
+    self._age = age
+    # 仍然有办法访问？
+    self.__account = account
+```
+
+类的专有方法：![image-20210125161621172](..\source\image-20210125161621172.png)
+
+- `type(obj)`：来获取对象的相应类型；
+- `isinstance(obj, type)`：判断对象是否为指定的 type 类型的实例；
+- `hasattr(obj, attr)`：判断对象是否具有指定属性/方法；
+- `getattr(obj, attr[, default])` 获取属性/方法的值, 要是没有对应的属性则返回 default 值（前提是设置了 default），否则会抛出 AttributeError 异常；
+- `setattr(obj, attr, value)`：设定该属性/方法的值，类似obj.attr=value；
+- `dir(obj)`：可以获取相应对象的所有属性和方法名的列表：
+
+方法的访问控制与属性相同
+
+## 11 模块
+
+### 11.1 模块的使用
+
+```python
+import xx
+```
+
+当使用import语句时，python从搜索路径依次寻找
+
+```python
+import sys
+print(sys.path)
+```
+
+直接导入某个模块中的某一个功能，也就是属性和方法
+
+```python
+import sys
+# 下面只能写作
+print(sys.version)
+
+from sys import version
+# 可以直接使用
+print(version)
+
+# 甚至可以直接写作
+from sys import *
+```
+
+### 11.2 主模块和非主模块
+
+如果一个模块被直接使用，而没有被别人调用，我们称这个模块为主模块，如果一个模块被别人调用，我们称这个模块为非主模块。
+
+可以通过`if `判断
