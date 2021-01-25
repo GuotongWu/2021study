@@ -464,4 +464,42 @@ from sys import *
 
 如果一个模块被直接使用，而没有被别人调用，我们称这个模块为主模块，如果一个模块被别人调用，我们称这个模块为非主模块。
 
-可以通过`if `判断
+可以通过`if name == '__main__'`判断是否存在调用
+
+### 11.3 包
+
+每个包目录下面都有一个`__init__.py`，其对应的模块名就是它的包名
+
+### 11.4 作用域
+
+```python
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+
+def _diamond_vip(lv):
+    print('尊敬的钻石会员用户，您好')
+    vip_name = 'DiamondVIP' + str(lv)
+    return vip_name
+
+
+def _gold_vip(lv):
+    print('尊敬的黄金会员用户，您好')
+    vip_name = 'GoldVIP' + str(lv)
+    return vip_name
+
+
+def vip_lv_name(lv):
+    if lv == 1:
+        print(_gold_vip(lv))
+    elif lv == 2:
+        print(_diamond_vip(lv))
+
+
+vip_lv_name(2)
+```
+
+在这个模块中，我们公开 `vip_lv_name` 方法函数，而其他内部的逻辑分别在 `_diamond_vip` 和 `_gold_vip` private 函数中实现
+
+## 12. Python 的 Magic Method
+
+使用`dir(object)`列举出所有的魔术方法
