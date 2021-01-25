@@ -265,11 +265,132 @@ sum = lambda num1 , num2 : num1 + num2;
 
 [iter.py](iter.py)
 
-**迭代方法创建list**：
+### 9.1 迭代方法创建list
 
 ```python
+list1 = [x*x for x in range(1,11)]
 
+# 后面带if形式
+list1 = [x*x for x in range(1,11) if x % 2 == 0]
+
+# 嵌套for
+list1= [(x+1,y+1) for x in range(3) for y in range(5)]
 ```
 
+### 9.2 生成器
 
+[yiled.py](yiled.py)
+
+```python
+def odd():
+    print ( 'step 1' )
+    yield ( 1 )
+    print ( 'step 2' )
+    yield ( 3 )
+    print ( 'step 3' )
+    yield ( 5 )
+
+o = odd()
+print( next( o ) )
+print( next( o ) )
+print( next( o ) )
+```
+
+### 9.3 反向迭代
+
+反向迭代仅仅当对象的大小可预先确定，或者对象实现了 `__reversed__()` 的特殊方法时才能生效。 如果两者都不符合，那你必须先将对象转换为一个列表才行
+
+```python
+list1 = [1,2,3,4,5]
+for num1 in reversed(list1) :
+    print ( num1 , end = ' ' )
+```
+
+### 9.4 同时迭代多个序列
+
+zip(a, b) 会生成一个可返回元组 (x, y) 的迭代器，其中 x 来自 a，y 来自 b。 一旦其中某个序列到底结尾，迭代宣告结束。
+
+```python
+names = ['laingdianshui', 'twowater', '两点水']
+ages = [18, 19, 20]
+for name, age in zip(names, ages):
+     print(name,age)
+```
+
+利用 `zip()` 函数，我们还可把一个 key 列表和一个 value 列表生成一个 dict （字典）
+
+```python
+names = ['laingdianshui', 'twowater', '两点水']
+ages = [18, 19, 20]
+
+dict1= dict(zip(names,ages))
+```
+
+## 10. 面向对象
+
+### 10.1 定义类
+
+```python
+class ClassA():
+    var1 = 100
+    var2 = 0.01
+    var3 = '两点水'
+
+    '''
+    下面是实例方法
+    通过实例调用：
+    a = ClassA()
+    a.fun1()
+    '''
+    
+    def fun1():
+        print('我是 fun1')
+
+    def fun2():
+        print('我是 fun1')
+
+    def fun3():
+        print('我是 fun1')
+```
+
+### 10.2 类方法
+
+```python
+class ClassA():
+    var1 = 'wgt'
+    
+    '''
+    下面是类方法
+    通过类名来调用:
+    ClassA.fun1(age)
+    '''
+    @classmethod # 声明下面的函数是类函数
+    def fun1(cls,age): #方法参数中有cls，需要通过cls获取到类属性
+        print('I am' + cls.var1) # cls同样不能省略
+        print(cls.var1 + 'is' + str(age))
+```
+
+### 10.3 实例
+
+类属性改变了，实例属性会跟着改变
+
+类方法改变了，实例方法也是会跟着改变的
+
+改变类方法，`类.原始函数 = 新函数` ，完成类的重写了，注意没有括号
+
+### 10.4 初始化函数
+
+```python
+class ClassA(object): # 继承object类
+	
+    # 构造函数？
+    def __init__(self, [...]): # 第一个参数一定要写上 self
+        pass
+    
+    # 析构函数
+    def __del__(self, [...]):
+        pass
+```
+
+### 10.5 类的继承
 
