@@ -26,7 +26,7 @@ UTF-8编码读取：`# -*- coding: utf-8 -*-`
 
 基本的数据转换
 
-![image-20210122164546614](source/1.png)
+![image-20210122164546614](../source/1.png)
 
 多变量赋值：`a, b, c = 1, 2, "liangdianshui"`
 
@@ -47,9 +47,9 @@ print(a[0:2])
 
 **删除**：`del name[3]`
 
-**列表运算符**：![image-20210122165754473](source/2.png)
+**列表运算符**：![image-20210122165754473](..\source/2.png)
 
-**列表方法**：![image-20210122170013905](source/3.png)
+**列表方法**：![image-20210122170013905](..\source/3.png)
 
 ### 3.2 Tuple
 
@@ -57,9 +57,9 @@ print(a[0:2])
 
 **删除**：`del tuple`
 
-**元组运算符**：![image-20210123094247810](source\image-20210123094247810.png)
+**元组运算符**：![image-20210123094247810](..\source\image-20210123094247810.png)
 
-## 4 DIct
+## 4 Dict
 
 **创建**：`dict = {key1 : value1, key2 : value2 }`
 
@@ -106,7 +106,7 @@ for key,number in animal.items():
 
 **其他函数和方法**：
 
-![image-20210123100533955](source\image-20210123100533955.png)
+![image-20210123100533955](..\source\image-20210123100533955.png)
 
 ## 5 Set
 
@@ -181,4 +181,95 @@ print('{0} is {0:>10.2f}'.format(1.123))
 # 取2位小数，10位右对齐，前面0表示format中元素序号
 '{:*^30}'.format('centered')  # 使用“*”填充
 ```
+
+## 8. 函数
+
+**实例：**
+
+```python
+def functionname( parameters ):
+   "函数_文档字符串"
+   function_suite
+   return [expression]
+```
+
+**返回值**：Python 一次接受多个返回值的数据类型就是元组
+
+### 8.1 参数
+
+默认参数：**只有在形参表末尾的那些参数可以有默认参数值**
+
+```python
+def print_name(name, age=18)
+	print(name+": "+str(age))
+	
+print_name('wgt')
+print_name('吴国桐',21)
+```
+
+关键字参数：可以通过参数名来给函数传递参数，而不用关心参数列表定义时的顺序
+
+```python
+def print_user_info( name ,  age  , sex = '男' ):
+   pass
+
+print_user_info( name = '两点水' ,age = 18 , sex = '女')
+print_user_info( name = '两点水' ,sex = '女', age = 18 )
+```
+
+不定长参数：
+
+无法确定传入的参数个数
+
+```python
+def print_user_info( name ,  age  , sex = '男' , * hobby):
+	# hobby其实是一个元组
+    pass
+
+print_user_info( '两点水' ,18 , '女', '打篮球','打羽毛球','跑步')
+```
+
+可变长参数也支持关键字参数（位置参数），没有被定义的关键参数会被放到一个字典里。
+
+```python
+def print_user_info( name ,  age  , sex = '男' , ** hobby ):
+    pass
+
+print_user_info( name = '两点水' , age = 18 , sex = '女', hobby = ('打篮球','打羽毛球','跑步'))
+```
+
+只接受关键字参数: 将强制关键字参数放到某个`*`参数或者单个`*`后面
+
+```python
+def print_user_info( name , *, age  , sex = '男' ):
+    pass
+
+print_user_info( name = '两点水' ,age = 18 , sex = '女' )
+# 这种写法会报错，因为 age ，sex 这两个参数强制使用关键字参数
+# print_user_info( '两点水' , 18 , '女' )
+```
+
+### 8.2 函数传值
+
+**不可更改的类型**：类似 c++ 的值传递，如 整数、字符串、元组。如fun（a），传递的只是 a 的值，没有影响 a 对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。
+
+**可更改的类型**：类似 c++ 的引用传递，如 列表，字典。如 fun（a），则是将 a 真正的传过去，修改后 fun 外部的 a 也会受影响
+
+### 8.3 匿名函数
+
+```python
+sum = lambda num1 , num2 : num1 + num2;
+```
+
+## 9. 迭代器
+
+[iter.py](iter.py)
+
+**迭代方法创建list**：
+
+```python
+
+```
+
+
 
