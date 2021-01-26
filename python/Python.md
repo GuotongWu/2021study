@@ -1,3 +1,5 @@
+[TOC]
+
 # Python
 
 ## 1. 概述
@@ -11,6 +13,8 @@
 命名：常量采用全大写，函数名一律小写，模块尽量使用小写命名，类名使用驼峰(CamelCase)命名风格，首字母大写
 
 ## 2. 基本数据类型和变量
+
+### 2.1 数据类型
 
 双引号中可以包含单引号，单引号类似
 
@@ -29,6 +33,65 @@ UTF-8编码读取：`# -*- coding: utf-8 -*-`
 ![image-20210122164546614](../source/1.png)
 
 多变量赋值：`a, b, c = 1, 2, "liangdianshui"`
+
+### 2.2 字符串
+
+**编码**：
+
+```python
+>>> ord('A') # 把字符转换成对应的 Unicode 码
+65
+>>> ord('高')
+39640
+>>> chr(66) # 把十进制数字转换成对应的字符
+'B'
+>>> ord('淇')
+28103
+```
+
+**替换**：
+
+`newa = a.replace('c', 'b') `，可以将所有的元素c替换成为b，而原来的a并没有改变，只是将newa指向了一个新的变量
+
+**切片**：
+
+![image-20210126101818101](..\source\image-20210126101818101.png)
+
+**分割与合并**：
+
+```python
+>>> a = "to be or not to be"
+>>> a.split()
+['to', 'be', 'or', 'not', 'to', 'be']
+>>> a.split('be') # 指定分割符
+['to ', ' or not to ', '']
+
+>>> a = ['sxt','sxt100','sxt200']
+>>> '*'.join(a)
+'sxt*sxt100*sxt200'
+```
+
+我们可以直接使用`==, !=`对字符串进行比较，是否含有相同的字符。
+我们使用 `is / not is`，判断两个对象是否同一个对象。比较的是对象的地址，即 `id(obj1)`是否和 `id(obj2)`相等。
+
+**查找**：
+
+![image-20210126102431875](..\source\image-20210126102431875.png)
+
+**去除首尾信息**：
+
+```python
+>>> "*s*x*t*".strip("*")
+'s*x*t'
+>>> "*s*x*t*".lstrip("*")
+'s*x*t*'
+>>> "*s*x*t*".rstrip("*")
+'*s*x*t'
+>>> " sxt ".strip() # 去除空格
+'sxt'
+```
+
+
 
 ## 3. List and Tuple
 
@@ -500,6 +563,138 @@ vip_lv_name(2)
 
 在这个模块中，我们公开 `vip_lv_name` 方法函数，而其他内部的逻辑分别在 `_diamond_vip` 和 `_gold_vip` private 函数中实现
 
-## 12. Python 的 Magic Method
+## 12. Python 的 Magic Method（待补充理解）
 
 使用`dir(object)`列举出所有的魔术方法
+
+`__new__` 是用来创建类并返回这个类的实例?
+
+```python
+class Meter(object):
+    def __init__(self, value=0.0):
+        self.value = float(value)
+
+    def __get__(self, instance, owner):
+        return self.value
+
+    def __set__(self, instance, value):
+        self.value = float(value)
+
+
+class Foot(object):
+    def __get__(self, instance, owner):
+        return instance.meter * 3.2808
+
+    def __set__(self, instance, value):
+        instance.meter = float(value) / 3.2808
+
+
+class Distance(object):
+    meter = Meter()
+    foot = Foot()
+    
+if __name__ == '__main__':
+    d = Distance()
+    print(d.meter, d.foot)
+    d.meter = 1
+    print(d.meter, d.foot)
+    d.meter = 2
+    print(d.meter, d.foot)
+    
+    
+# ====================输出结果======================
+0.0 0.0
+1.0 3.2808
+2.0 6.5616
+```
+
+运算符的魔术方法，相当于重载
+
+```python
+class Number(object):
+    def __init__(self, value):
+        self.value = value
+
+    def __eq__(self, other):
+        print('__eq__')
+        return self.value == other.value
+
+    def __ne__(self, other):
+        print('__ne__')
+        return self.value != other.value
+
+    def __lt__(self, other):
+        print('__lt__')
+        return self.value < other.value
+
+    def __gt__(self, other):
+        print('__gt__')
+        return self.value > other.value
+
+    def __le__(self, other):
+        print('__le__')
+        return self.value <= other.value
+
+    def __ge__(self, other):
+        print('__ge__')
+        return self.value >= other.value
+
+
+if __name__ == '__main__':
+    num1 = Number(2)
+    num2 = Number(3)
+    print('num1 == num2 ? --------> {} \n'.format(num1 == num2))
+    print('num1 != num2 ? --------> {} \n'.format(num1 == num2))
+    print('num1 < num2 ? --------> {} \n'.format(num1 < num2))
+    print('num1 > num2 ? --------> {} \n'.format(num1 > num2))
+    print('num1 <= num2 ? --------> {} \n'.format(num1 <= num2))
+    print('num1 >= num2 ? --------> {} \n'.format(num1 >= num2))
+```
+
+## 13. 枚举类
+
+```python
+from enum import Enum
+Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+
+#第一个参数 Month 表示的是该枚举类的类名，第二个 tuple 参数，表示的是枚举类的值
+
+for name, member in Month.__members__.items():
+    print(name, '---------', member, '----------', member.value)
+```
+
+`member.value` 是自动赋给成员的 `int` 类型的常量，默认是从 1 开始的
+
+`MappingProxyType`不可改变的字典映射
+
+```python
+from types import MappingProxyType
+
+d = {'a':1, 'b':2}
+d_view = MappingProxyType(d)
+# d_view的映射不可改变
+```
+
+如果需要自定义字典的映射，即改变上述从Jan->1的映射，可以采用派生的方法
+
+```python
+# @unique 装饰器可以帮助我们检查保证没有重复值
+@unique
+class Month(Enum):
+    Jan = 'January'
+    Feb = 'February'
+    Mar = 'March'
+    Apr = 'April'
+    May = 'May'
+    Jun = 'June'
+    Jul = 'July'
+    Aug = 'August'
+    Sep = 'September '
+    Oct = 'October'
+    Nov = 'November'
+    Dec = 'December'
+    
+# 遍历方法与上述一致
+```
+
+枚举的比较

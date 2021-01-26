@@ -1,4 +1,5 @@
 *.vscode
 *.ui
 tempCodeRunnerFile*
+*.pyc
 */__pycache__
