@@ -59,6 +59,8 @@ UTF-8编码读取：`# -*- coding: utf-8 -*-`
 
 **分割与合并**：
 
+将列表和字符串相互转换
+
 ```python
 >>> a = "to be or not to be"
 >>> a.split()

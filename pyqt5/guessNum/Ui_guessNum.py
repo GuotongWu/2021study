@@ -21,9 +21,15 @@ class Ui_guessNum(object):
         self.widget.setGeometry(QtCore.QRect(170, 170, 389, 269))
         self.widget.setObjectName("widget")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.widget)
+
+        # self.horizontalLayout_2.addStretch(1)
+
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+
+
+
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.textBrowser = QtWidgets.QTextBrowser(self.widget)
         self.textBrowser.setObjectName("textBrowser")
