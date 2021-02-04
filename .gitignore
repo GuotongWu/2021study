@@ -6,3 +6,12 @@ tempCodeRunnerFile*
 build
 dist
 *.spec
+*.txt
+*.svg
+source/qr_weibo.png
+source/qr_wechat.jpg
+source/qr_toutiao.png
+source/header_logo.png
+source/202101291128083568.png
+source/202101291126164224.png
+source/202101291123550913.jpg
