@@ -18,3 +18,4 @@ source/202101291123550913.jpg
 python/google.py
 *.log
 aliyun.json
+*.class
