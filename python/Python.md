@@ -74,7 +74,7 @@ UTF-8编码读取：`# -*- coding: utf-8 -*-`
 ```
 
 我们可以直接使用`==, !=`对字符串进行比较，是否含有相同的字符。
-我们使用 `is / not is`，判断两个对象是否同一个对象。比较的是对象的地址，即 `id(obj1)`是否和 `id(obj2)`相等。
+我们使用 `is / not is`，判断两个对象是否同一个对象。比较的是**对象的地址**，即 `id(obj1)`是否和 `id(obj2)`相等。
 
 **查找**：
 
@@ -108,9 +108,9 @@ print(a[0:2])
 
 结果是左开右闭，显示2个：[1,2]
 
-**元素更新**：`name.append()`
+**元素更新**：`name.append()`， 追加多个值使用`extend`
 
-**删除**：`del name[3]`
+**删除**：`del name[3]`, 如果在后面还要使用，使用`pop`
 
 **列表运算符**：![image-20210122165754473](..\source/2.png)
 
@@ -124,9 +124,23 @@ print(a[0:2])
 
 **元组运算符**：![image-20210123094247810](..\source\image-20210123094247810.png)
 
+**解压元组**：
+
+```python
+t = (1, 10.31, ('OK', 'python'))
+(a, b, (c, d)) = t
+```
+
 ## 4 Dict
 
 **创建**：`dict = {key1 : value1, key2 : value2 }`
+
+```python
+# 一般创建时使用空字典
+di = dict()
+di['a'] = 1
+di['b'] = 2
+```
 
 **修改**：
 
@@ -245,6 +259,13 @@ world hello world
 print('{0} is {0:>10.2f}'.format(1.123))
 # 取2位小数，10位右对齐，前面0表示format中元素序号
 '{:*^30}'.format('centered')  # 使用“*”填充
+```
+
+### 7.3 三元表达式
+
+```python
+x, y = 4, 5
+small = x if x < y else y
 ```
 
 ## 8. 函数
@@ -700,3 +721,111 @@ class Month(Enum):
 ```
 
 枚举的比较
+
+## 14. 补漏
+
+### 14.1 assert
+
+`assert`这个关键词我们称之为“断言”，当这个关键词后边的条件为 False 时，程序自动崩溃并抛出`AssertionError`的异常。
+
+```python
+my_list = ['lsgogroup']
+my_list.pop(0)
+assert len(my_list) > 0
+
+# AssertionError
+```
+
+在进行单元测试时，可以用来在程序中置入检查点，只有条件为 True 才能让程序正常工作。
+
+```python
+assert 3 > 7
+
+# AssertionError
+```
+
+### 14.2 while-else循环
+
+在while语句正常执行完后执行else语句，如果遇到break则不会执行else语句
+
+```python
+count = 0
+while count < 5:
+    print("%d is  less than 5" % count)
+    count = count + 1
+else:
+    print("%d is not less than 5" % count)
+    
+# 0 is  less than 5
+# 1 is  less than 5
+# 2 is  less than 5
+# 3 is  less than 5
+# 4 is  less than 5
+# 5 is not less than 5
+```
+
+### 14.3 enumerate函数
+
+```python
+seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+lst = list(enumerate(seasons))
+print(lst)
+# [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]
+lst = list(enumerate(seasons, start=1))  # 下标从 1 开始
+print(lst)
+# [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]
+```
+
+### 14.4 异常处理
+
+```python
+try:
+    f = open('test.txt')
+    print(f.read())
+    f.close()
+except OSError as error:
+    print('打开文件出错\n原因是：' + str(error))
+
+# 打开文件出错
+# 原因是：[Errno 2] No such file or directory: 'test.txt'
+```
+
+```python
+try:
+    fh = open("testfile.txt", "w")
+    fh.write("这是一个测试文件，用于测试异常!!")
+except IOError:
+    print("Error: 没有找到文件或读取文件失败")
+else:
+    print("内容写入文件成功")
+    fh.close()
+
+# 内容写入文件成功
+```
+
+`else`语句必须在`except`语句存在的前提下
+
+```python
+try:
+    raise NameError('HiThere')
+except NameError:
+    print('An exception flew by!')
+    
+# An exception flew by!
+```
+
+使用`raise`语句抛出一个指定异常
+
+### 14.5 拷贝
+
+```python
+list1 = [123, 456, 789, 213]
+list2 = list1 # 浅拷贝
+list3 = list1[:] # 深拷贝
+```
+
+### 14.6 sort sorted
+
+sort是列表方法，使用后直接改变列表
+
+sorted是针对于所有序列（列表，元组，字符串等）的函数，使用后返回列表，不影响原始的数据
