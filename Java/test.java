@@ -1,15 +1,21 @@
+import java.util.*;
+import top.omysycamore.*;
+class A{
+    int x = 0;
+    static int number = 111;
+    public void f(int ... x){
+        x[0]++;
+        for(int item: x)
+            System.out.print(item+" ");
+        System.out.print("\n");
+    }
+}
+
 public class test{
     public static final double PI = 3.14; // const
     public static void main(String[] args){
-        System.out.println("PI = " + PI);
-        System.out.print("Hello World!\n");
-        int[] numbers = {12, 3, 2, 454, 3, 43, 4, 34, 54, 45};
-        for(int i=0; i<numbers.length; ++i)
-            System.out.printf("%d ", numbers[i]);
-        System.out.println(' ');
-        // for-each方式遍历
-        for(int item : numbers)
-            System.out.printf("%d ", item);
-         
+        int [] sum = {0,1,3,-9,2};
+        hello h = new hello();
+        h.max(3,2);
     }
 }
