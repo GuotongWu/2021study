@@ -1,5 +1,7 @@
 # Java
 
+[TOC]
+
 ## 1. 基本数据类型
 
 Unicode字符集
@@ -179,7 +181,7 @@ hello h = new hello();
 
 共有：public
 
-受保护：protected
+受保护：protected ？？？
 
 友好：什么都不用修饰，只能访问**同一个包**的友好变量和方法
 
@@ -195,5 +197,175 @@ Double, Float, Integer, Long, Byte, Short, Character
 Student [] s = new Student[10];
 for(Student item: s)
     item = new Student(); //还要对每一个元素进行赋值
+```
+
+## 4. 子类和继承
+
+```java
+class A extends Rational
+```
+
+只能继承一个父类
+
+在同一个包内，继承除了private所有变量和方法；不在同一个包内，继承public和protected
+
+对于父类的private变量，可以留出public的方法，方便子类对其进行访问
+
+```java
+class A
+{
+    private int number;;
+    public int getNumber(){
+        return number;
+    }
+}
+```
+
+成员变量的隐藏和方法重写
+
+### 4.1 super关键字
+
+```java
+class Sum{
+    int [] x;
+    Sum(int [] tmp){
+        x = tmp;
+    }
+    int caculator(){
+        int sum = 0;
+        for(int item: x)
+            sum += item;
+        return sum;
+    }
+}
+
+class Average extends Sum{
+    // 在Java的继承中，要求子类的构造方法必须调用父类的构造方法，
+    // 如果子类没有显示的调用父类的构造方法，就会隐含调用父类的无参构造方法
+    Average(int[] tmp) {
+        super(tmp);
+        // TODO Auto-generated constructor stub
+    }
+    @Override
+    int caculator(){
+        int sum = 0;
+        for(int item: x)
+            sum += item;
+        return sum/x.length;
+    }
+    double getSum(){
+        return super.caculator(); // super调用父类隐藏的方法
+    }
+}
+```
+
+使用super调用被隐藏的方法时，使用的成员变量同样是被隐藏的成员变量，或继承的成员变量
+
+### 4.2 final关键字
+
+```java
+final class A{
+    ...
+}
+// final类不能被继承
+// final方法不允许被子类重写
+// final修饰常量，在声明时必须赋值
+```
+
+### 4.3 上转型对象
+
+```java
+class Animal{}
+class Tiger extends Animal{}
+...
+Animal a;
+Tiger b = new Tiger();
+a = b; // 称为对象a是对象b的上转型对象，“老虎是动物”
+```
+
+![image-20210305100344333](..\source\image-20210305100344333.png)
+
+没有新增的变量和方法，但是仍然保存重写的方法
+
+```java
+// 但是可以再次将上转型对象转化为子类对象
+// 子类对象又具有子类所有的属性和方法
+Tiger c = (Tiger)a;
+```
+
+
+
+### 4.4 多态
+
+abstract关键词：抽象类和抽象方法
+
+抽象类不能用new创建该对象，但是可以用new成为其子类的上转型对象，由此可以使用子类重写的方法
+
+```java
+Animal a = new Tiger();
+a = new Lion()
+```
+
+```java
+// 设计思路
+public abstract class Geometry
+{
+    public abstract double getArea();
+}
+// Pillar
+public class Pillar
+{
+    Geometry bottom;
+    double height;
+    Pillar(Geometry b, double h){
+        g = b;
+        height = h;
+    }
+    public double getVolume(){
+        return bottom.getArea()*height; 
+    }
+}
+// 下面子类各自实现即可
+```
+
+## 5. 接口与实现
+
+接口体中只有抽象方法，所有**常量**（不能有变量）的权限都是public，static，所有方法的权限都是public，abstract（允许省略）
+
+### 5.1 接口实现
+
+```java
+class A implements Printable, Addable
+```
+
+必须重写接口中的方法：**必须加public修饰**
+
+如果没有重写，该类必须为抽象类
+
+接口前面的修饰（public，pravate...）与类和权限访问类似
+
+接口同样能通过extends继承
+
+### 5.2 接口回调
+
+```java
+Com com;  // 接口变量
+Implecom ipc; // 实现接口的类变量
+com = ipc // 接口回调，接口变量可以调用类实现的接口方法
+```
+
+同上，`Com com = new ipc()`这种实现方法类似于上转型对象可以使用子类重写的方法
+
+接口回调的实现过程中体现**多态**
+
+### 5.3 接口参数
+
+![image-20210305110008686](..\source\image-20210305110008686.png)
+
+相当于
+
+```java
+SpeakHello hello = new Chinese(); //接口回调
+hello.speakHello(); // 可以调用类实现接口的方法
 ```
 

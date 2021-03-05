@@ -43,5 +43,8 @@ public class Vector {
             System.out.printf("%d ", n);
             
         }
+        // 同一个包内不需要import
+        hello h = new hello();
+        h.max(5, 6);
     }
 }
