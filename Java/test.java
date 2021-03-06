@@ -1,47 +1,65 @@
-import java.util.*;
-import top.omysycamore.*;
-class Sum{
-    int [] x;
-    Sum(int [] tmp){
-        x = tmp;
+import java.util.Scanner;
+
+class CowFarm {
+    static String cname;
+    Cow cow;
+
+    CowFarm(int a, int b, int c, String s) {
+        cow = new Cow(a, b, c);
+        cname = s;
     }
-    double caculator(){
-        int sum = 0;
-        for(int item: x)
-            sum += item;
-        return sum*1.0;
+
+    void farmSpeak(int[] a) {
+        for (int item : a) {
+            if (item == 0)
+                try {
+                    throw new Div0Exception();
+                } catch (Div0Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            else
+                item = 10 / item;
+        }
     }
-    // static int number = 111;
-    // public void f(int ... x){
-    //     x[0]++;
-    //     for(int item: x)
-    //         System.out.print(item+" ");
-    //     System.out.print("\n");
-    // }
+    class Cow{
+        int height;
+        int weight;
+        int price;
+        Cow(int a, int b, int c){
+            height = a;
+            weight = b;
+            price = c;
+        }
+        void speak(){
+            System.out.println("height = " + height + "\nweight = " + weight + "\nprice = " + price);
+        }
+    }
 }
 
-class Average extends Sum{
-    Average(int[] tmp) {
-        super(tmp);
-        // TODO Auto-generated constructor stub
+class Div0Exception extends Exception{
+    String message;
+    public Div0Exception(){
+        message = "Error: divide 0 can not be solved";
     }
-    @Override
-    double caculator(){
-        int sum = 0;
-        for(int item: x)
-            sum += item;
-        return sum*1.0/x.length;
-    }
-    double getSum(){
-        return super.caculator();
+    public String warnMess(){
+        return message;
     }
 }
-public class test{
-    public static final double PI = 3.14; // const
-    public static void main(String[] args){
-        int [] sum = {0,1,3,-9,2};
-        Average a = new Average(sum);
-        System.out.println("ave = " + a.caculator());
-        System.out.println("sum = " + a.getSum());
+public class test
+{
+    public static void main(String[] args) {
+        Scanner reader = new Scanner(System.in);
+        int sum = 0;
+        int cnt = 0;
+        while(reader.hasNextInt()){
+            int x = reader.nextInt();
+            assert x<=100 && x>=0: "The grade is not correct";
+            sum += x;
+            cnt++;
+            if(cnt==5)
+                break;
+        }
+        System.out.println("sum = " + sum + "  ave = " + sum*1.0/cnt);
     }
 }

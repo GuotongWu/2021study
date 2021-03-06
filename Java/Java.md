@@ -369,3 +369,133 @@ SpeakHello hello = new Chinese(); //接口回调
 hello.speakHello(); // 可以调用类实现接口的方法
 ```
 
+## 7. 内部类和异常类
+
+### 7.1 内部类
+
+外嵌类的成员变量和方法在内部类中仍然有效
+
+外部类可以声明内部类的实例
+
+```java
+
+class CowFarm
+{
+    static String cname;
+    Cow cow;
+    CowFarm(int a, int b, int c, String s) {
+        cow = new Cow(a, b, c);
+        cname = s;
+    }
+    void farmSpeak(){
+        cow.speak();
+    }
+    class Cow{
+        int height;
+        int weight;
+        int price;
+        Cow(int a, int b, int c){
+            height = a;
+            weight = b;
+            price = c;
+        }
+        void speak(){
+            System.out.println("height = " + height + "\nweight = " + weight + "\nprice = " + price);
+        }
+    }
+}
+public class test
+{
+    public static void main(String[] args) {
+        CowFarm c = new CowFarm(300, 200, 400, "Betty");
+        c.farmSpeak();
+    }
+}
+```
+
+### 7.2 匿名类
+
+```java
+class Polygon {
+   public void display() {
+      System.out.println("在 Polygon 类内部");
+   }
+}
+
+class AnonymousDemo {
+   public void createClass() {
+
+      // 创建的匿名类继承了 Polygon 类
+      Polygon p1 = new Polygon() {
+         public void display() {
+            System.out.println("在匿名类内部。");
+         }
+      };
+      p1.display();
+   }
+}
+
+class Main {
+   public static void main(String[] args) {
+       AnonymousDemo an = new AnonymousDemo();
+       an.createClass();
+   }
+}
+```
+
+匿名接口类似
+
+### 7.3 异常类
+
+```java
+try{
+    // 可能包含异常的语句
+}
+catch(ExceptionSubClass1 e){
+    e.getMessage(); // 输出异常信息
+    e.printStackTrace();
+    e.toString();
+}
+catch(ExceptionSubClass2 e){
+    ...
+}
+finally{
+    // 无论异常，都会被执行
+}
+```
+
+自定义异常类：
+
+```java
+// 未看完
+```
+
+### 7.4 断言
+
+```java
+assert number>=0: "xxxxx"; // 错误提示语句
+// 值为true继续执行，否则立即停止
+```
+
+```java
+Scanner reader = new Scanner(System.in);
+int sum = 0;
+int cnt = 0;
+while(reader.hasNextInt()){
+	int x = reader.nextInt();
+	assert x<=100 && x>=0: "The grade is not correct";
+	sum += x;
+	cnt++;
+	if(cnt==5)
+		break;
+}
+System.out.println("sum = " + sum + "  ave = " + sum*1.0/cnt);
+```
+
+![image-20210306113150901](..\source\image-20210306113150901.png)
+
+
+```shell
+java -ea filename "启用断言"
+```
+
