@@ -499,3 +499,66 @@ System.out.println("sum = " + sum + "  ave = " + sum*1.0/cnt);
 java -ea filename "启用断言"
 ```
 
+## 8. 常用实用类
+
+### 8.1 String类
+
+```java
+// 下面两者具有不同的引用
+String s = new String("hello");
+String t = new String("hello");
+// 通过String对象创建
+String Tom = new String(Jim);
+// 通过字符数组创建
+char [] a = {'1', '2', '3', '4', '5'};
+String sa = new String(a, 1, 3); // <-> String sa = new String("234")
+//下面两者有相同的引用
+String s, t;
+s = 'hello';
+t = hello;
+```
+
+字符串的并置：
+
+```java
+String st = s + t;
+```
+
+关于常量池的内容，未看完。
+
+常用方法
+
+```java
+//
+String a;
+int lena = a.length();
+//
+String Tom = "hello";
+String Bob = "hello";
+Tom.equals(Bob); //返回boolean
+//
+a.startsWith("sss");
+a.endsWith("sss"); // 返回boolean
+//
+a.compareTo("xxx");
+//
+a.contains("xxx");
+//
+```
+
+字符串和基本数据的相互转化
+
+```java
+String s = "876";
+int x = Integer.parseInt(s);
+//
+String str = String.valueOf(123.12)
+```
+
+对象的字符串表示
+
+```java
+// public String toString()方法
+// 返回：类名@对象引用的字符串表示
+```
+
