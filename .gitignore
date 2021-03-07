@@ -21,3 +21,4 @@ aliyun.json
 *.class
 Java/top/omysycamore/hello.java
 *.asv
+*.log
