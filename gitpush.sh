@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /home/wgt/Github/2021study
-time1 = $(date)
+time1=$(date)
 echo $time1 >> gitHistory.log
 git status >> gitHistory.log
 git add .
