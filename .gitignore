@@ -21,3 +21,8 @@ aliyun.json
 *.class
 Java/top/omysycamore/hello.java
 *.asv
+.idea
+production
+*.iml
+picture
+META-INF

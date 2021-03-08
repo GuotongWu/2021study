@@ -9,6 +9,9 @@ Unicode字符集
 ### 1.1 基本数据类型：
 
 boolean, byte(1), short(2), int(4), long, char, float(常量后面有f), double
+```java
+long number = 10L;
+```
 
 ### 1.2 输入输出：
 
@@ -179,7 +182,7 @@ hello h = new hello();
 
 私有：private
 
-共有：public
+公有：public
 
 受保护：protected ？？？
 
@@ -378,7 +381,6 @@ hello.speakHello(); // 可以调用类实现接口的方法
 外部类可以声明内部类的实例
 
 ```java
-
 class CowFarm
 {
     static String cname;
@@ -427,6 +429,7 @@ class AnonymousDemo {
 
       // 创建的匿名类继承了 Polygon 类
       Polygon p1 = new Polygon() {
+          // 可以在内部对父类的方法进行重写
          public void display() {
             System.out.println("在匿名类内部。");
          }
@@ -496,7 +499,7 @@ System.out.println("sum = " + sum + "  ave = " + sum*1.0/cnt);
 
 
 ```shell
-java -ea filename "启用断言"
+java -ea filename #"启用断言"
 ```
 
 ## 8. 常用实用类
