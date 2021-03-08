@@ -21,8 +21,12 @@ aliyun.json
 *.class
 Java/top/omysycamore/hello.java
 *.asv
+<<<<<<< HEAD
 .idea
 production
 *.iml
 picture
 META-INF
+=======
+*.log
+>>>>>>> temp
