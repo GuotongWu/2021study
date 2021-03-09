@@ -7,11 +7,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
 public class MyCanvas extends JPanel implements MouseListener {
     boolean hasAddActionListener=false;//设置方格的动作监听器的标志位，TRUE为已经添加上动作事件，FALSE是尚未添加动作事件
     Cell cell[];//定义方格
     Rectangle cellNull;//定义空方格区域
     public static int pictureID=1;//当前选择的图片代号
+    Date startTime;
+    Date finishTime;
+    Player player = new Player();
+    String usrname = new String("HERO");
 
     public MyCanvas() {
         this.setLayout(null);
@@ -110,6 +118,8 @@ public class MyCanvas extends JPanel implements MouseListener {
             for(int i=0;i<8;i++)//为第个方格添加动作事件，这样单击按钮就能移动了
                 cell[i].addMouseListener(this);
         hasAddActionListener=true;
+
+        startTime = new Date();
     }
     private boolean test(int x,int y){
         if((x>=0&&x<=200)||(y>=0&&y<=200))
@@ -126,6 +136,62 @@ public class MyCanvas extends JPanel implements MouseListener {
 //		for(int i=0;i<8;i++)
 //			cell[i].repaint();
 //	}
+
+    public void writeRecord(){
+        File file = new File("out/file.txt");
+        try {
+            Player [] temp = readRecord();
+            Player [] players;
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            if(temp==null) {
+                players = new Player[1];
+                players[0] = player;
+            }
+            else {
+                players = new Player[temp.length + 1];
+                for (int i = 0; i < players.length; ++i)
+                    players[i] = new Player();
+                int i = 0,j = 0;
+                for (; i < players.length;) {
+                    if (j == temp.length || player.getMiliseconds() < temp[j].getMiliseconds()) {
+                        player.setRank(i);
+                        players[i++] = player;
+                        break;
+                    } else {
+                        players[i++] = temp[j++];
+                    }
+                }
+                for(; i<players.length;)
+                    players[i++] = temp[j++];
+            }
+            objectOut.writeObject(players);
+            objectOut.close();
+        }catch (IOException event){
+            System.out.println("1 "+event);
+        }
+//        catch(FileNotFoundException event){
+//            FileOutputStream fileOut = new FileOutputStream(file);
+//
+//        }
+    }
+
+    public Player [] readRecord(){
+        try{
+            File file = new File("out/file.txt");
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            Player [] playArry = (Player[])objectIn.readObject();
+            objectIn.close();
+            return playArry;
+        }catch(IOException event){
+            System.out.println("3 "+event);
+            return null;
+        }catch(ClassNotFoundException event){
+            System.out.println("2 "+event);
+            return null;
+        }
+    }
 
     public void mouseClicked(MouseEvent arg0) {	}
     public void mouseEntered(MouseEvent arg0) {	}
@@ -152,8 +218,17 @@ public class MyCanvas extends JPanel implements MouseListener {
 
         cellNull.setLocation(x1,y1);
         this.repaint();
-        if(this.isFinish()){//进行是否完成的判断
-            JOptionPane.showMessageDialog(this,"恭喜你完成拼图,加油！");
+        if(this.isFinish()){//进行是否完成的判断if(true){
+            finishTime = new Date();
+            player.setMiliseconds(finishTime.getTime() - startTime.getTime());
+            usrname = JOptionPane.showInputDialog(this,
+                    "恭喜你完成拼图,加油！\n 请输入您的名字：",
+                    "游戏通关！",
+                    JOptionPane.PLAIN_MESSAGE);
+            if (usrname.equals(""))
+                usrname = "HERO";
+            player.setUsername(usrname);
+            writeRecord();
             for(int i=0;i<8;i++)
                 cell[i].removeMouseListener(this);//如果已完成，撤消鼠标事件，鼠标单击方格不在起作用
             hasAddActionListener=false;

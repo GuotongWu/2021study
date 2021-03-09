@@ -1,65 +1,82 @@
-import java.util.Scanner;
+import java.awt.Dialog;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-class CowFarm {
-    static String cname;
-    Cow cow;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-    CowFarm(int a, int b, int c, String s) {
-        cow = new Cow(a, b, c);
-        cname = s;
-    }
-
-    void farmSpeak(int[] a) {
-        for (int item : a) {
-            if (item == 0)
-                try {
-                    throw new Div0Exception();
-                } catch (Div0Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            else
-                item = 10 / item;
-        }
-    }
-    class Cow{
-        int height;
-        int weight;
-        int price;
-        Cow(int a, int b, int c){
-            height = a;
-            weight = b;
-            price = c;
-        }
-        void speak(){
-            System.out.println("height = " + height + "\nweight = " + weight + "\nprice = " + price);
-        }
-    }
-}
-
-class Div0Exception extends Exception{
-    String message;
-    public Div0Exception(){
-        message = "Error: divide 0 can not be solved";
-    }
-    public String warnMess(){
-        return message;
-    }
-}
-public class test
-{
+public class test{
     public static void main(String[] args) {
-        Scanner reader = new Scanner(System.in);
-        int sum = 0;
-        int cnt = 0;
-        while(reader.hasNextInt()){
-            int x = reader.nextInt();
-            assert x<=100 && x>=0: "The grade is not correct";
-            sum += x;
-            cnt++;
-            if(cnt==5)
-                break;
+        int [] numbers = {1,2,4,5};
+        int obj = 3;
+        for(int number:numbers){
+            if(obj < number){
+                
+            }
         }
-        System.out.println("sum = " + sum + "  ave = " + sum*1.0/cnt);
+    }   
+}
+
+class Windowmenu extends JFrame implements ActionListener{
+    JMenuBar menubar;
+    JMenu menu;
+    JMenuItem item;
+    JButton buttom = new JButton("Ok");
+    JTable table;
+    public Windowmenu(String s){
+        init(s);
+        initTable();
+        setJMenuBar(menubar);
+        setBounds(60, 100, 188, 108);
+        setVisible(true);
+        buttom.addActionListener(this);
+    }
+    public void initTable(){
+        // DefaultTableModel tableModel = new DefaultTableModel(); 
+        // jTable = new JTable(tableModel, obj, colums){
+        //     public boolean isCellEditable(int row, int column){
+        //         return false;}
+        // };
+        String [] columns = {"Rank", "Name", "Time"};
+        Object [][] obj = new Object[2][3];
+        for(int i=0; i<2; ++i){
+            obj[i][0] = Integer.toString(i);
+            obj[i][1] = "hhh123";
+            obj[i][2] = "32.1 sec";
+        }
+        // table.add(columns, obj);
+        table = new JTable(obj, columns);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+    public void init(String s){
+        menubar = new JMenuBar();
+        menu = new JMenu(s);
+        item = new JMenuItem("hello");
+        menu.add(item);
+        menubar.add(menu);
+        add(buttom);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        JScrollPane js = new JScrollPane(table); // in case the tablehead is not showing
+        JDialog sonjFrame = new JDialog();
+        sonjFrame.add(js);
+        sonjFrame.setBounds(
+            new Rectangle(
+                (int)this.getBounds().getX() + 50,
+                (int)this.getBounds().getY() + 50,
+                (int)this.getWidth(),
+                (int)this.getHeight()
+            ));
+        sonjFrame.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+        sonjFrame.setVisible(true);
     }
 }

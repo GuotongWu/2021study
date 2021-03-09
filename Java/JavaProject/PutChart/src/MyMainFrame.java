@@ -5,27 +5,19 @@
  *
  */
 
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Color;
-import java.awt.Container;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 public class MyMainFrame extends JFrame implements ActionListener {
     MyCanvas myCanvas;
     JPanel panelNorth,panelPreview;//定义上方的面板，及Preview所需的面板
-    Button start,preview,set;//定义Start，Preview，设定按钮
+    Button start,preview,set,rank;//定义Start，Preview，设定按钮
     Container container;//容器，得到内容面板
+    JTable rankTable;
 
     public MyMainFrame() {//初使化
         container=this.getContentPane();
@@ -35,6 +27,9 @@ public class MyMainFrame extends JFrame implements ActionListener {
         preview.addActionListener(this);
         set = new Button("Setting");
         set.addActionListener(this);
+        rank = new Button("rank");
+        rank.addActionListener(this);
+
         panelPreview=new JPanel();
         panelPreview.setLayout(null);
         Icon icon=new ImageIcon( this.getClass().getResource( "picture/pic_"+MyCanvas.pictureID+".jpg" ) );
@@ -48,6 +43,8 @@ public class MyMainFrame extends JFrame implements ActionListener {
         panelNorth.add(start);
         panelNorth.add(preview);
         panelNorth.add(set);
+        panelNorth.add(rank);
+
         myCanvas=new MyCanvas();
         container.add(myCanvas,BorderLayout.CENTER);
         container.add(panelNorth,BorderLayout.NORTH);
@@ -69,7 +66,6 @@ public class MyMainFrame extends JFrame implements ActionListener {
         Button button=(Button)arg0.getSource();
         if(button==start){
             myCanvas.Start();
-
         }else if(button==preview){
             if(button.getLabel()=="Preview"){
                 container.remove(myCanvas);
@@ -77,7 +73,7 @@ public class MyMainFrame extends JFrame implements ActionListener {
                 panelPreview.updateUI();
                 container.repaint();
 
-                button.setLabel("返回");
+                button.setLabel("Return");
             }else{
                 container.remove(panelPreview);
                 container.add(myCanvas);
@@ -104,6 +100,34 @@ public class MyMainFrame extends JFrame implements ActionListener {
                 panelPreview.add(label);
                 panelPreview.repaint();
             }
+        }else if(button==rank) {
+//            panelRank = new JPanel();
+            Object[][] obj = new Object[10][3];
+            String[] name = {"Rank", "Player", "Time"};
+//              read data.txt
+            Player[] players = myCanvas.readRecord();
+//              initial obj
+            for (int i = 0; i < 10 && i<players.length; ++i) {
+                obj[i][0] = i+1;
+                obj[i][1] = players[i].getUsername();
+                obj[i][2] = Double.toString(players[i].getMiliseconds()/1000.0) + " sec";
+            }
+            rankTable = new JTable(obj, name);
+            rankTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            JScrollPane js = new JScrollPane(rankTable);
+            JDialog rankDialog = new JDialog();
+            rankDialog.setTitle("排行榜（Rank 10）");
+            rankDialog.add(js);
+            rankDialog.setBounds(
+                    new Rectangle(
+                            (int) this.getBounds().getX() + 50,
+                            (int) this.getBounds().getY() + 50,
+                            (int) this.getWidth(),
+                            (int) this.getHeight()*2/3
+                    )
+            );
+            rankDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+            rankDialog.setVisible(true);
         }
     }
 
