@@ -4,7 +4,7 @@ x=sin(2*pi*t);
 y=0.8*square(2*pi*t);
 plot(t,x,'.-r',t,y,'linewidth',2);
 title('正弦波和方波');
-legend('正弦波','方波')
+legend('正弦波','方波')  
 figure
 subplot(2,1,1);plot(t,x);
 ylabel('幅度/V')
