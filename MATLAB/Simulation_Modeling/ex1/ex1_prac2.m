@@ -5,9 +5,22 @@
 %%
 clc,clear,close all
 t = 0:0.001:10;
-y = 1 - exp(-t)./t;
 figure()
-plot(t,y)
-title('单位阶跃响应')
-xtitle('t(s)')
+hold on
+for tou = 1:2
+    y = 1 - exp(-t/tou);
+    plot(t,y)
+end
+hold off
 grid on
+legend('tou = 1', 'tou = 2')
+title('单位阶跃响应')
+xlabel('t(s)')
+%%
+clc,clear
+syms t tou;
+eqn = 1 - exp(-t/tou) == 0.98;
+solx = solve(eqn, t);
+valx = vpa(subs(solx, tou, [1,2]))
+%%
+t_rise()
