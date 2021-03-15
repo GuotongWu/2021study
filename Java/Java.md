@@ -13,6 +13,14 @@ boolean, byte(1), short(2), int(4), long, char, float(常量后面有f), double
 long number = 10L;
 ```
 
+类型的转换运算：byte, short, char, int, long, float, double，支持从左到右自动转换，否则报错
+
+```java
+float x = 1 // int->float自动转换
+```
+
+
+
 ### 1.2 输入输出：
 
 输入
@@ -563,5 +571,26 @@ String str = String.valueOf(123.12)
 ```java
 // public String toString()方法
 // 返回：类名@对象引用的字符串表示
+```
+
+## 9. 输入输出流
+
+### 9.1 对象流
+
+```java
+import java.io.*;
+
+try{
+    //从文件读入对象
+    File file = new File("out/file.txt");
+    FileInputStream fileIn = new FileInputStream(file);
+    ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+    Player [] playArry = (Player[])objectIn.readObject();
+    objectIn.close();
+}catch(IOException event){
+    System.out.println("3 "+event);
+}catch(ClassNotFoundException event){
+    System.out.println("2 "+event);
+}
 ```
 
