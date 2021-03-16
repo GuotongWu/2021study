@@ -13,13 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class test{
-    public static void main(String[] args) {
-        int [] a = {10, 20, 30, 40};
-        int [][] b = {{1, 2}, {4, 5, 6, 7}};
-        b[0] = a;
-        b[0][1] = b[1][3];
-        System.out.println(b[0][3]);
-        System.out.println(a[1]);
+    public static void main(String [] args){
+        int sum = 0;
+        for(int i=1; ;++i){
+            sum += i;
+            if(sum >= 8888){
+                System.out.println(i-1);
+                break;
+            }
+        }
     }   
 }
 
