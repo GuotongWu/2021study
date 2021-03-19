@@ -29,3 +29,4 @@ production
 *.iml
 picture
 META-INF
+*.exe
