@@ -1,30 +1,24 @@
-import socket
-import ssl
-
-class server_ssl:
-    def build_listen(self):
-        # 生成SSL上下文
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        # 加载服务器所用证书和私钥
-        context.load_cert_chain('cert/server.crt', 'cert/server_rsa_private.pem.unsecure')
-
-        # 监听端口
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
-            sock.bind(('127.0.0.1', 9443))
-            sock.listen(5)
-            # 将socket打包成SSL socket，其主要工作是完成密钥协商
-            with context.wrap_socket(sock, server_side=True) as ssock:
-                while True:
-                    # 接收客户端连接
-                    client_socket, addr = ssock.accept()
-                    # 接收客户端信息
-                    msg = client_socket.recv(1024).decode("utf-8")
-                    print(f"receive msg from client {addr}：{msg}")
-                    # 向客户端发送信息
-                    msg = f"yes , you have client_socketect with server.\r\n".encode("utf-8")
-                    client_socket.send(msg)
-                    client_socket.close()
-
+import socketserver
+ip_port=("127.0.0.1",8000)
+ 
+class MyServer(socketserver.BaseRequestHandler):
+    def handle(self):
+        print("conn is :",self.request) # conn
+        print("addr is :",self.client_address) # addr
+ 
+        while True:
+            try:
+                #收消息
+                data = self.request.recv(1024)
+                if not data:break
+                print("收到客户端的消息是",data.decode("utf-8"))
+                #发消息
+                self.request.sendall(data.upper())
+            except Exception as e:
+                print(e)
+                break
+ 
+ 
 if __name__ == "__main__":
-    server = server_ssl()
-    server.build_listen()
+    s = socketserver.ThreadingTCPServer(ip_port,MyServer)
+    s.serve_forever()
