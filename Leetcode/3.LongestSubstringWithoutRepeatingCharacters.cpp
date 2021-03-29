@@ -13,24 +13,21 @@ public:
     int lengthOfLongestSubstring(string s) {
         // 滑动窗口+哈希表
         int maxLen = 0;
-        int tempLen = 0; 
-        int left, right;
+        int right = 0;
         unordered_map<char, int> hashtable;
-        for(int i=0; i<s.length(); ++i){
-            left = i;
-            right = left + 1;
-            hashtable[s[left]] = 1;
+        for(int i=0; i<s.length() && right<s.length(); ++i){
             while(1){
                 auto posi = hashtable.find(s[right]);
-                if(posi != hashtable.end()){
-                    ++right;
-                    ++tempLen;
+                if(posi==hashtable.end() && right<s.length()){ // 哈希表中找到，右指针右移
+                    hashtable[s[right++]] = 1;
                 }
-                else{
-                    hashtable.erase()
+                else{ // 反之找到，将左指针删去
+                    hashtable.erase(s[i]);
                     break;
                 }
             }
+            if(maxLen<right-i)
+                maxLen = right-i;
         }
         return maxLen;
     }
@@ -38,5 +35,8 @@ public:
 // @lc code=end
 int main()
 {
+    string str = "bbbbbb";
+    Solution s;
+    cout<<s.lengthOfLongestSubstring(str)<<endl;
     return 0;
 }
