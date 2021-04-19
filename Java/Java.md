@@ -339,6 +339,31 @@ public class Pillar
 // 下面子类各自实现即可
 ```
 
+### 4.5 补遗
+
+#### 4.5.1 静态块
+
+当类的字节码进入内存时，类的静态块会立刻被执行。
+
+```java
+class AAA{
+    static {
+        System.out.println("Hello in AAA");
+    }
+}
+public class test{
+    static {
+        System.out.println("I'm the first");
+    }
+    public static void main (String [] args){
+        AAA a = new AAA();
+        System.out.println("I am studying (static) block");
+    }
+}
+```
+
+
+
 ## 5. 接口与实现
 
 接口体中只有抽象方法，所有**常量**（不能有变量）的权限都是public，static，所有方法的权限都是public，abstract（允许省略）
