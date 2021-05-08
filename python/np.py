@@ -4,7 +4,7 @@ x = np.array([[3,1,4], [1,5,9], [2,6,5]])
 f = np.exp(x)
 print(f)
 
-n = 10
+n = 100
 
 def computeEx(x, k):
     if k == 1:

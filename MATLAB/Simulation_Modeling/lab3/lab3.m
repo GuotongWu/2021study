@@ -2,8 +2,9 @@ clc,clear,close all;
 %%
 % 假设初值y(0)=0
 dy = @(t,y) (5*cos(20*pi*t) + 5*cos(200*pi*t) - y) / 0.02;
-iter = 1000;
-h = 0.2 / iter; %步长
+% iter = 1000;
+% h = 0.2 / iter; %步长
+h = 0.001;
 figure()
 %%
 % 欧拉法
