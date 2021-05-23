@@ -5,7 +5,6 @@ f = np.exp(x)
 print(f)
 
 n = 10
-
 def computeEx(x, k):
     if k == 1:
         return x
