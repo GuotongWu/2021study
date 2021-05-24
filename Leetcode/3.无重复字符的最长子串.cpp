@@ -31,19 +31,15 @@ public:
     //     }
     //     return maxLen;
     // }
-    // int a[100000];
     int lengthOfLongestSubstring(string s) {
         int maxlen = 0;
-        unordered_map<int,int> hashtable;
+        unordered_map<char,int> hashtable;
         for(int i=0, j=0; i<s.length(); ++i){
-            auto posi = hashtable.find(s[i]);
-            if(posi == hashtable.end()) //如果没有找到重复，将右指针添加进入hash
-                hashtable[s[i]] = 1;    
-            else{ 
-                // 如果找到重复，移动左指针j，直到该值消失
-                while(hashtable.find(s[i]) != hashtable.end())
-                    hashtable.erase(s[j--]);
-            }
+            // 每次右边加入一个新的元素，向右移动左指针j，直到没有重复值
+            while(hashtable.find(s[i]) != hashtable.end() && j<i)
+                hashtable.erase(s[j++]);
+            // 然后把右指针i，添加进入hash 
+            hashtable[s[i]] = 1;
             maxlen = max(maxlen, i-j+1);
         }
         return maxlen;
@@ -52,7 +48,7 @@ public:
 // @lc code=end
 int main()
 {
-    string str = "abcabcbb";
+    string str = "";
     Solution s;
     cout<<s.lengthOfLongestSubstring(str)<<endl;
     return 0;
