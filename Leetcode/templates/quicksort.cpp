@@ -17,9 +17,9 @@ void quicksort(int nums[], int l, int r){
 }
 
 int main(){
-    int nums[] = {8,7,10,5,2,7,3};
-    quicksort(nums, 0, 6);
-    for(int i=0; i<6; ++i)
+    int nums[] = {1,1};
+    quicksort(nums, 0, 1);
+    for(int i=0; i<2; ++i)
         cout<<nums[i]<<" ";
     return 0;
 }

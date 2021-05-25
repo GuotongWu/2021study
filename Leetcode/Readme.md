@@ -37,4 +37,27 @@ v.insert(v.begin()+i, number); // 第一个参数必须是迭代器
 1. 求n的第k位数字: `n >> k & 1`
 2. 返回n的最后一位1：`lowbit(n) = n & -n`
 
-# 4. 离散化：
+# 4. 离散化
+
+```cpp
+
+vector<int> alls; // 存储所有待离散化的值
+sort(alls.begin(), alls.end()); // 将所有值排序
+alls.erase(unique(alls.begin(), alls.end()), alls.end());   // 去掉重复元素
+
+// 二分求出x对应的离散化的值
+int find(int x) // 找到第一个大于等于x的位置
+{
+    int l = 0, r = alls.size() - 1;
+    while (l < r)
+    {
+        int mid = l + r >> 1;
+        if (alls[mid] >= x) r = mid;
+        else l = mid + 1;
+    }
+    return r + 1; // 映射到1, 2, ...n
+}
+```
+
+
+111

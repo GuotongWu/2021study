@@ -30,7 +30,7 @@ public:
             val[0] = intervals[i][0];
             val[1] = intervals[i][1];
             while(j < intervals.size() && intervals[j][0] <= val[1]){
-                val[1] = intervals[j][1];
+                val[1] = max(intervals[j][1], val[1]);
                 ++j;
             }
             i = j;
