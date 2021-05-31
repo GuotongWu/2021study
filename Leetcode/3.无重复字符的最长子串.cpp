@@ -48,7 +48,7 @@ public:
 // @lc code=end
 int main()
 {
-    string str = "";
+    string str = "12235";
     Solution s;
     cout<<s.lengthOfLongestSubstring(str)<<endl;
     return 0;
