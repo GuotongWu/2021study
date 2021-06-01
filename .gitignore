@@ -6,7 +6,6 @@ tempCodeRunnerFile*
 build
 dist
 *.spec
-*.txt
 *.svg
 source/qr_weibo.png
 source/qr_wechat.jpg
@@ -29,3 +28,6 @@ production
 *.iml
 picture
 META-INF
+*.exe
+images
+test.tex

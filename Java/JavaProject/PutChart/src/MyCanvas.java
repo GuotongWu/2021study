@@ -1,14 +1,8 @@
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class MyCanvas extends JPanel implements MouseListener {
