@@ -7,6 +7,7 @@ void init(){
 void draw_triangle(int left){
     glLineWidth(3);
     glShadeModel(GL_SMOOTH);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBegin(GL_TRIANGLES);
         glColor3f(1, 0, 0);
         glVertex3f(-1-left, -1, -6);
@@ -26,6 +27,7 @@ void draw_triangle(int left){
 
 void draw_triangle_fan(int right){
     glShadeModel(GL_FLAT);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glNewList(1, GL_COMPILE);
         glBegin(GL_TRIANGLE_FAN);
             glColor3f(0, 0, 1);

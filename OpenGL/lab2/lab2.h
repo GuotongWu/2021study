@@ -1,30 +1,21 @@
-#define WindowWidth  400
-#define WindowHeight 400
-#define WindowTitle  "OpenGL"
- 
-#include <GL/glut.h>
-#include <stdio.h>
-#include <stdlib.h>
- 
-//定义两个纹理对象编号
-GLuint texGround;
-GLuint texWall;
- 
-#define BMP_Header_Length 54  //图像数据在内存块中的偏移量
-static GLfloat angle = 0.0f;   //旋转角度
- 
-// 函数power_of_two用于判断一个整数是不是2的整数次幂
+#pragma once
+#include<GL/glut.h>
+#include<iostream>
+
+#define BMP_Header_Length 54
+
+int power_of_tow(int n);
+GLuint load_texture(const char* filename);
+
+
 int power_of_two(int n)
 {
 	if( n <= 0 )
 		return 0;
 	return (n & (n-1)) == 0;
 }
- 
-/* 函数load_texture
-* 读取一个BMP文件作为纹理
-* 如果失败，返回0，如果成功，返回纹理编号
-*/
+
+
 GLuint load_texture(const char* file_name)
 {
 	GLint width, height, total_bytes;
@@ -133,73 +124,4 @@ GLuint load_texture(const char* file_name)
 	glBindTexture(GL_TEXTURE_2D, lastTextureID);  //恢复之前的纹理绑定
 	free(pixels);
 	return texture_ID;
-}
- 
- 
-void display(void)
-{
-	// 清除屏幕
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// 设置视角
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(75, 1, 1, 21);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(-4, 7,7, 0, 0, 0, 0, 0, 1);
- 
-	glRotatef(angle, 0.0f, 0.0f, 1.0f); //旋转
- 
-	// 绘制底面以及纹理
-	glBindTexture(GL_TEXTURE_2D, texGround);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-8.0f, -8.0f, 0.0f);
-	glTexCoord2f(0.0f, 3.0f); glVertex3f(-8.0f, 8.0f, 0.0f);
-	glTexCoord2f(3.0f, 3.0f); glVertex3f(8.0f, 8.0f, 0.0f);
-	glTexCoord2f(3.0f, 0.0f); glVertex3f(8.0f, -8.0f, 0.0f);
-	glEnd();
-	// 绘制立面
-	glBindTexture(GL_TEXTURE_2D, texWall);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-6.0f, -3.0f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-6.0f, -3.0f, 5.0f);
-	glTexCoord2f(2.0f, 1.0f); glVertex3f(6.0f, -3.0f, 5.0f);
-	glTexCoord2f(2.0f, 0.0f); glVertex3f(6.0f, -3.0f, 0.0f);
-	glEnd();
- 
-	//绘制另外一个立面
-	glBegin(GL_QUADS);
-	glTexCoord2f(2.0f, 0.0f); glVertex3f(6.0f, -3.0f, 0.0f);     
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(6.0f, 9.0f, 0.0f);		 
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(6.0f, 9.0f, 5.0f);		 
-	glTexCoord2f(2.0f, 1.0f); glVertex3f(6.0f, -3.0f, 5.0f);	 
-	glEnd();	
- 
-	glutSwapBuffers();  
-}
- 
-void myIdle(void)  
-{     
-	angle += 1.8f;    
-	if( angle >= 360.0f )      
-		angle = 0.0f;   
-	display();  
-}   
- 
-int main(int argc, char* argv[])
-{
-	// GLUT初始化
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(WindowWidth, WindowHeight);
-	glutCreateWindow(WindowTitle);	
-	glEnable(GL_DEPTH_TEST);    
-	glEnable(GL_TEXTURE_2D);    // 启用纹理
-	texGround = load_texture("th.bmp");  //加载纹理
-	texWall = load_texture("th.bmp");
-	glutDisplayFunc(&display);   //注册函数 
-	glutIdleFunc(&myIdle);  
-	glutMainLoop(); //循环调用
-	return 0;
 }
