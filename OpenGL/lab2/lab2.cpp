@@ -78,34 +78,48 @@ GLuint front_incline, back_incline, left_incline, right_incline;
 GLuint front_vertical, back_vertical, left_vertical, right_vertical;
 
 
+double Random(){
+    return rand()%(199+1)/(double)(99+1) - 1;
+}
+
+double color [3][3] = {LIGHT_GREEN, LIGHT_RED, LIGHT_WHITE};
+int color_point = 0;
+double current_color[3];
+
 void create_triangle(double x, double y,double z,double radius, double resolution)
 {
     /* top triangle */
     double PI = 3.1416;
     double i;
     glBegin(GL_TRIANGLE_FAN);
+        glColor3f(DARK_WHITE);
         glVertex3f(x, y, z);  /* center */
-            for (i = 0; i <= 2 * PI; i += resolution)
-                glVertex3f(x, y + radius*cos(i), z+radius * sin(i));
-        glVertex3f(x, y + radius*cos(i), z + radius*sin(i));
+        for (i = 2 * PI; i >= 0; i -= resolution, color_point=(color_point+1)%3){
+            for(int j=0; j<3; ++j) current_color[j] = color[color_point][j];
+            glColor3f(current_color[0],current_color[1],current_color[2]);
+            glVertex3f(x, y+radius*cos(i), z+radius*sin(i));
+        }
+        glColor3f(DARK_WHITE);
+        glVertex3f(x, y+radius*cos(i), z+radius*sin(i));
     glEnd();
 }
 
 void create_wheel(double x, double y, double z, double radious, double width){
     glPushMatrix();
     {
-        glColor3f(DEEP_DARK_WHITE);
-        //glTranslatef(10,-20,50);
+        glColor3f(DARK_WHITE);
+        // glTranslatef(10,-20,50);
         glTranslatef(x, y, z);
         glRotatef(90,0,1,0);
-
+        
+        glColor3f(DARK_WHITE); 
         gluCylinder(qobj, radious, radious, width, 15, 20);
     }
     glPopMatrix();
 
     glColor3f(DARK_WHITE);
-    create_triangle(x+width,y, z, radious, 0.3);
-    create_triangle(x,y, z, radious, 0.3);
+    create_triangle(x+width,y, z, radious, 1);
+    create_triangle(x,y, z, radious, 1);
 }
 
 void draw_road(){
@@ -392,11 +406,11 @@ void car(double x, double y){
 
 void draw_car(double x, double y){
     car(x,y);
-    create_wheel(x+12.5, 0, 7, 6, 4);
-    create_wheel(x-16.5, 0, 7, 6, 4);
+    create_wheel(x+12.5, 0, 7, 6, 3);
+    create_wheel(x-16.5, 0, 7, 6, 3);
 
-    create_wheel(x+12.5, 30, 7, 6, 4);
-    create_wheel(x-16.5, 30, 7, 6, 4);
+    create_wheel(x+12.5, 30, 7, 6, 3);
+    create_wheel(x-16.5, 30, 7, 6, 3);
 }
 
 void create_lamp(double x,double y,double z,double height){
@@ -562,6 +576,19 @@ void display(){
     //}
     //glPopMatrix();
 
+    // glEnable(GL_LIGHTING);
+	// glEnable(GL_LIGHT0);
+
+	// GLfloat ambient[] = { .3f,.3f,.3f,1.f };
+	// GLfloat diffuse[] = { .7f,.7f,.7f,1.f };
+	// GLfloat specular[] = { .5f,.5f,.5f,1.f };
+
+	// glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	// glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+	// glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+
+	// GLfloat position[] = { 1.0f,0.0f,0.f,1.f };
+	// glLightfv(GL_LIGHT0, GL_POSITION, position);
 
 
     glutSwapBuffers();

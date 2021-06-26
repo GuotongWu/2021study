@@ -1,9 +1,10 @@
 #include<GL/glut.h>
 #include<time.h>
 #include<iostream>
+#include<unistd.h>
 using namespace std;
 
-const int N = 1e4;
+const int N = 1e2;
 
 
 void init(){
@@ -39,11 +40,11 @@ void draw_triangle(int op){
     glPolygonMode(GL_FRONT_AND_BACK, drawmode);
     glBegin(trimode);
         glColor3f(Random(), Random(), Random());
-        glVertex3f(Random(), Random(), -1.0);
+        glVertex3f(Random(), Random(), -2);
         glColor3f(Random(), Random(), Random());
-        glVertex3f(Random(), Random(), -1.0);
+        glVertex3f(Random(), Random(), -2);
         glColor3f(Random(), Random(), Random());
-        glVertex3f(Random(), Random(), -1.0);
+        glVertex3f(Random(), Random(), -2);
     glEnd();
 }
 
@@ -52,7 +53,7 @@ void display(){
     clock_t start, end;
 
     for(int i=1; i<=5; ++i){
-        glClearColor(Random(), Random(), Random(), 0.0);
+        glClearColor(1.0, 1.0, 1.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
         start = clock();
         for(int j=0; j<N; ++j){
@@ -61,8 +62,21 @@ void display(){
         glFlush();
         end = clock();
         cout<<i<<". time = "<<double(end-start)/CLOCKS_PER_SEC<<"s"<<endl;
+        sleep(2);
     }
-    puts("<===================================>");
+
+    // int i = 5;
+    // glClearColor(1.0, 1.0, 1.0, 0.0);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // start = clock();
+    // for(int j=0; j<N; ++j){
+    //     draw_triangle(i);
+    // }
+    // glFlush();
+    // end = clock();
+    // cout<<i<<". time = "<<double(end-start)/CLOCKS_PER_SEC<<"s"<<endl;
+
+    // puts("<===================================>");
     
 }
 
