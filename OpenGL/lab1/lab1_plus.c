@@ -1,10 +1,10 @@
+#include <windows.h>
 #include<GL/glut.h>
 #include<time.h>
-#include<iostream>
 #include<unistd.h>
-using namespace std;
+#include<stdio.h>
 
-const int N = 1e2;
+const int N = 1e5;
 
 
 void init(){
@@ -61,7 +61,8 @@ void display(){
         }
         glFlush();
         end = clock();
-        cout<<i<<". time = "<<double(end-start)/CLOCKS_PER_SEC<<"s"<<endl;
+        double temp = (end - start)*1.0/CLOCKS_PER_SEC;
+        printf("%d. time = %f s\n", i, temp);
         sleep(2);
     }
 
@@ -89,8 +90,8 @@ void reshape(int w, int h) {
     glLoadIdentity();
 }
 
-int main(int argc, const char * argv[]){
-    glutInit(&argc, const_cast<char **>(argv));
+int main(int argc, char ** argv){
+    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
     glutInitWindowSize(1000, 1000);

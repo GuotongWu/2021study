@@ -1,4 +1,4 @@
-function [sys,x0,str,ts,simStateCompliance] = mysfun(t,x,u,flag,R,L,C)
+function [sys,x0,str,ts,simStateCompliance] = mysfun(t,x,u,flag,R,L,CC)
 %SFUNTMPL General MATLAB S-Function Template
 %   With MATLAB S-functions, you can define you own ordinary differential
 %   equations (ODEs), discrete system equations, and/or just about
@@ -99,6 +99,11 @@ function [sys,x0,str,ts,simStateCompliance] = mysfun(t,x,u,flag,R,L,C)
 %
 % The following outlines the general structure of an S-function.
 %
+
+%
+[A,B,C,D] = tf2ss([R/L, 0], [1, R/L, 1/(L*CC)]);
+%
+
 switch flag,
 
   %%%%%%%%%%%%%%%%%%
@@ -111,7 +116,7 @@ switch flag,
   % Derivatives %
   %%%%%%%%%%%%%%%
   case 1,
-    sys=mdlDerivatives(t,x,u,R,L,C);
+    sys=mdlDerivatives(t,x,u,A,B);
 
   %%%%%%%%%%
   % Update %
@@ -123,7 +128,7 @@ switch flag,
   % Outputs %
   %%%%%%%%%%%
   case 3,
-    sys=mdlOutputs(t,x,u,R,L);
+    sys=mdlOutputs(t,x,u,C,D);
 
   %%%%%%%%%%%%%%%%%%%%%%%
   % GetTimeOfNextVarHit %
@@ -169,7 +174,7 @@ sizes.NumContStates  = 2;
 sizes.NumDiscStates  = 0;
 sizes.NumOutputs     = 1;
 sizes.NumInputs      = 1;
-sizes.DirFeedthrough = 0;
+sizes.DirFeedthrough = 1;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
 
 sys = simsizes(sizes);
@@ -187,7 +192,7 @@ str = [];
 %
 % initialize the array of sample times
 %
-ts  = [0 0];
+ts  = [-1 0];
 
 % Specify the block simStateCompliance. The allowed values are:
 %    'UnknownSimState', < The default setting; warn and assume DefaultSimState
@@ -204,9 +209,9 @@ simStateCompliance = 'UnknownSimState';
 % Return the derivatives for the continuous states.
 %=============================================================================
 %
-function sys=mdlDerivatives(t,x,u,R,L,C)
+function sys=mdlDerivatives(t,x,u,A,B)
 
-sys = [-R/L, -1/(C*L); 1, 0]*x + [1;0]*u;
+sys = A*x+B*u;
 
 % end mdlDerivatives
 
@@ -229,9 +234,9 @@ sys = [];
 % Return the block outputs.
 %=============================================================================
 %
-function sys=mdlOutputs(t,x,u,R,L)
+function sys=mdlOutputs(t,x,u,C,D)
 
-sys = R/L*x(1);
+sys = C*x + D*u;
 
 % end mdlOutputs
 

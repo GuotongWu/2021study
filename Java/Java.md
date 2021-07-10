@@ -2,24 +2,48 @@
 
 [TOC]
 
+## 0. 概述
+
+平台无关：Java运行环境（JRE）由Java虚拟机、类库以及一些核心文件组成
+
+Java SE：Java标准平台，提供标准的JDK
+
+开发步骤：源文件 -> 字节码 -> 解释器执行字节码
+
+**主类必须和文件名一致，包含 `main`函数，不一定是public类型**
+
+```shell
+javac hello.java
+java A
+```
+
 ## 1. 基本数据类型
 
-Unicode字符集
+Unicode字符集：65536个字符集
 
 ### 1.1 基本数据类型：
 
-boolean, byte(1), short(2), int(4), long, char, float(常量后面有f), double
+逻辑：boolean,
+
+整数：byte(1), short(2), int(4), long
+
+```java
+byte: -128~127
+```
+
+字符：char(2)    0~65535
+
+浮点数：float(常量后面有f)（32）, double（64）
+
 ```java
 long number = 10L;
 ```
 
-类型的转换运算：byte, short, char, int, long, float, double，支持从左到右自动转换，否则报错
+类型的转换运算：**byte, short, char, int, long, float, double**，支持从左到右自动转换，否则报错（或者必须强制转换）
 
 ```java
 float x = 1 // int->float自动转换
 ```
-
-
 
 ### 1.2 输入输出：
 
@@ -47,11 +71,15 @@ double y = reader.nextDouble();
 //与C语言不同
 int size = 30;
 int [] a = new int[size]
+// 或者初始化
+int [] a = {1,2,3};
 ```
 
-赋值：`a = new int[4]`，此时数组元素会赋上一个默认的值
+**赋值：`a = new int[4]`，此时数组元素会赋上一个默认的值**
 
 二维数组：
+
+可以这样初始化：`int [][] a = {{1,2,3},{4,5,6}};`
 
 ```java
 int [][] x = new int [4][3];
@@ -68,7 +96,7 @@ b[1] = new int[12];
 b[2] = new int[1]
 ```
 
-length：`a.length()`
+**length：`a.length()`**
 
 数组的引用：当对数组进行赋值时，`a = b`，系统自动释放原来a的空间
 
@@ -77,6 +105,22 @@ length：`a.length()`
 instanceof: obj intanceof class，判断对象是否右边类的实例
 
 ```java
+class Card(){
+    int n;
+}
+
+public class hhh{
+    public static void main(String [] args){
+        Card c = new Card();
+        System.out.println(c instance of Card);
+        // 子类对象 intanceof 父类 = true;
+    }
+}
+```
+
+```java
+import java.util.Scanner;
+
 int sum = 0;
 // int x;
 Scanner reader = new Scanner(System.in);
@@ -90,6 +134,12 @@ while(reader.hasNextInt()){
 new的结果是一个16进制数，成为对象的引用
 
 没有析构方法
+
+局部变量没有默认值
+
+成员变量的赋值可作为初值赋予，但是不能这样：
+
+![image-20210624211043139](..\source\image-20210624211043139.png)
 
 ### 3.1 参数传递
 
@@ -111,6 +161,7 @@ public void func(int ... x){ // 可变参数必须写在参数表的最后
 ### 3.2  对象的组合
 
 ```java
+// ???
 class A{
     int x; 
 }
@@ -121,6 +172,8 @@ class B{
 ```
 
 ### 3.3 实例成员和类成员
+
+类成员变量共享存储空间
 
 ```java
 class Animal{
@@ -142,7 +195,7 @@ for(int item: sum)
 
 ### 3.4 重载
 
-多态：重载、重写
+多态：重载、重写（继承有关）
 
 重载：参数的个数、参数的类型有不同存在；**注意返回类型和参数名字不参与比较**
 
@@ -150,7 +203,7 @@ for(int item: sum)
 
 ### 3.5 this关键字
 
-表示某个对象，可以出现在实例方法、构造方法中，但是不能出现在类方法中
+表示某个对象，可以出现在实例方法、构造方法中，**但是不能出现在类方法中**
 
 当实例变量、类变量都在实例方法中出现时，默认格式为（方法的调用也与其类似）：
 
@@ -169,8 +222,19 @@ class A{
 
 包编译、运行必须在上一级目录进行
 
+```java
+package top.omysycamoro.top;
+```
+
+
+
 ```shell
 cd "d:\Github\2021study\Java" ; if ($?) { java top.omysycamore.hello }
+########################
+cd top/omysycamore
+cd ../..
+javac *.java
+java top.omysycamore.hello
 ```
 
 ### 3.7 import语句
@@ -188,15 +252,15 @@ hello h = new hello();
 
 ### 3.8 访问权限
 
-私有：private
+私有：private，在其他类中无法访问
 
-公有：public
+共有：public
 
-受保护：protected ？？？
+受保护：protected ，在同一个包类可以访问，可**以被所有的子类访问（子类可以不在同一个包内）**
 
 友好：什么都不用修饰，只能访问**同一个包**的友好变量和方法
 
-注意类的修饰没有protected和private
+**注意类的修饰没有protected和private**
 
 ### 3.9 基本类型的类封装
 
@@ -207,7 +271,7 @@ Double, Float, Integer, Long, Byte, Short, Character
 ```java
 Student [] s = new Student[10];
 for(Student item: s)
-    item = new Student(); //还要对每一个元素进行赋值
+    item = new Student(); //还要对每一个元素进行初始化
 ```
 
 ## 4. 子类和继承
@@ -234,6 +298,10 @@ class A
 
 成员变量的隐藏和方法重写
 
+**重写：方法的名字、参数个数、参数的类型和父类完全相同**
+
+**重写时，不能降低方法的访问权限**，但是可以提高（顺序：public, protected, 友好的，private）
+
 ### 4.1 super关键字
 
 ```java
@@ -254,10 +322,10 @@ class Average extends Sum{
     // 在Java的继承中，要求子类的构造方法必须调用父类的构造方法，
     // 如果子类没有显示的调用父类的构造方法，就会隐含调用父类的无参构造方法
     Average(int[] tmp) {
-        super(tmp);
+        super(tmp); // super必须是构造方法中第一条语句
         // TODO Auto-generated constructor stub
     }
-    @Override
+    @Override // 重写方法
     int caculator(){
         int sum = 0;
         for(int item: x)
@@ -296,11 +364,12 @@ a = b; // 称为对象a是对象b的上转型对象，“老虎是动物”
 
 ![image-20210305100344333](..\source\image-20210305100344333.png)
 
-没有新增的变量和方法，但是仍然保存重写的方法
+**没有新增的变量和方法，但是仍然保存重写的方法**
 
 ```java
 // 但是可以再次将上转型对象转化为子类对象
 // 子类对象又具有子类所有的属性和方法
+// 如果子类重写了父类的静态方法，那么子类对象的上转型对象不能调用子类重写的静态方法，只能调用父类的静态方法
 Tiger c = (Tiger)a;
 ```
 
@@ -310,11 +379,19 @@ Tiger c = (Tiger)a;
 
 abstract关键词：抽象类和抽象方法
 
-抽象类不能用new创建该对象，但是可以用new成为其子类的上转型对象，由此可以使用子类重写的方法
+子类必须对父类的抽象方法进行重写
+
+不能用final和abstract同时修饰方法类，static也不能，即必须是实例方法
+
+**抽象类不能用new创建该对象**，但是可以用new成为其子类的上转型对象，由此可以使用子类重写的方法
 
 ```java
 Animal a = new Tiger();
-a = new Lion()
+a = new Lion();
+a.cry();
+// 新的上转型对象
+a = new Dog();
+a.cry();
 ```
 
 ```java
@@ -366,7 +443,7 @@ public class test{
 
 ## 5. 接口与实现
 
-接口体中只有抽象方法，所有**常量**（不能有变量）的权限都是public，static，所有方法的权限都是public，abstract（允许省略）
+接口体中只有抽象方法，所有**常量**（不能有变量）的权限都是public、static，所有**方法**的权限都是public、abstract（允许省略）
 
 ### 5.1 接口实现
 
@@ -376,9 +453,9 @@ class A implements Printable, Addable
 
 必须重写接口中的方法：**必须加public修饰**
 
-如果没有重写，该类必须为抽象类
+如果没有重写，该类必须为抽象类，**抽象类能够重写接口方法**
 
-接口前面的修饰（public，pravate...）与类和权限访问类似
+接口前面的修饰（public，private）与类和权限访问类似
 
 接口同样能通过extends继承
 
@@ -412,6 +489,10 @@ hello.speakHello(); // 可以调用类实现接口的方法
 外嵌类的成员变量和方法在内部类中仍然有效
 
 外部类可以声明内部类的实例
+
+可以给内部类添加static关键字，成为static内部类
+
+内部类不能声明类变量和类方法
 
 ```java
 class CowFarm
@@ -450,6 +531,12 @@ public class test
 
 ### 7.2 匿名类
 
+匿名类可以继承也可以重写父类方法
+
+使用匿名类，必须在某个类中直接用匿名类创建对象，即匿名类必须是内部类
+
+匿名类可以访问外嵌类中的成员变量和方法，匿名类的类体不可以声明static成员变量和static方法
+
 ```java
 class Polygon {
    public void display() {
@@ -459,7 +546,6 @@ class Polygon {
 
 class AnonymousDemo {
    public void createClass() {
-
       // 创建的匿名类继承了 Polygon 类
       Polygon p1 = new Polygon() {
           // 可以在内部对父类的方法进行重写
@@ -475,6 +561,26 @@ class Main {
    public static void main(String[] args) {
        AnonymousDemo an = new AnonymousDemo();
        an.createClass();
+   }
+}
+```
+
+函数可以使用匿名类作为参数
+
+```java
+class People{
+   void speak(){
+      System.out.println("People");
+   }
+}
+
+public class test{
+   public static void sayhello(People p){
+      System.out.println("hhh");
+      p.speak();
+   }
+   public static void main(String[] args) {
+      sayhello(new People(){void speak(){System.out.println("already changed");}});     
    }
 }
 ```
@@ -503,7 +609,47 @@ finally{
 自定义异常类：
 
 ```java
-// 未看完
+// 看完
+package LoginException;
+public class MyException extends Exception{
+    private String message;
+    public MyException(String m){
+        super(m);
+        message = m;
+    }
+}
+```
+
+```java
+package LoginException;
+
+public class Login {
+    String usrname;
+    String password;
+    public Login(String name, String psword){
+        usrname = name;
+        password = psword;
+    }
+    public void isCorrect(String psword) throws MyException{
+        if(!psword.equals(password))
+            throw new MyException("password incorrect");
+    } 
+}
+```
+
+```java
+package LoginException;
+
+public class Main {
+    public static void main(String[] args) {
+        Login log = new Login("hhh", "123");
+        try{
+            log.isCorrect("1234");
+        }catch(MyException me){
+            System.out.println("Log failed: " + me.getMessage());
+        }
+    }
+}
 ```
 
 ### 7.4 断言
@@ -551,7 +697,7 @@ String sa = new String(a, 1, 3); // <-> String sa = new String("234")
 //下面两者有相同的引用
 String s, t;
 s = 'hello';
-t = hello;
+t = 'hello';
 ```
 
 字符串的并置：
@@ -580,6 +726,11 @@ a.compareTo("xxx");
 //
 a.contains("xxx");
 //
+a.indexOf('xxx', num);
+//
+a.substring(int startrpoint, int endpoint); //[start, end)
+//
+a.trim();
 ```
 
 字符串和基本数据的相互转化
@@ -598,13 +749,130 @@ String str = String.valueOf(123.12)
 // 返回：类名@对象引用的字符串表示
 ```
 
-## 9. 输入输出流
+### 8.2 StringBuffer类
 
-### 9.1 对象流
+```java
+StringBuffer s = new StringBuffer("hello");
+s.append(" ok");
+s.charAt(0); // 获得指定位置字符串
+s.charAt(0, 'i'); // 替换字符串
+s.insert(0, "hhh");
+s.reverse();
+s.delete(0,2);
+s.replace(0,1,"h");
+```
+
+### 8.3 Data类与Calendar类
+
+```java
+Date now = new Date(); // 获取当前时间
+Date d = new Date(1000); // 公元后（北京是1970年01月01日8:00:01）1000ms
+```
+
+```java
+Calendar ca = Calendar.getInstance();
+// 设置
+ca.set(new Date());
+// 取得
+ca.get(Calendar.MONTH);
+```
+
+### 8.4 格式化
+
+```java
+Date now = new Date();
+String s1 = String.format("%ty-%tm-%td", now, now, now);
+String s2 = String.format("%tF", now);
+```
+
+```java
+int x = 0;
+String s = String.format("hhh %d", x);
+```
+
+## 9. 组件及事件处理
+
+容器类、组件类
+
+```java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+
+class calFrame extends JFrame{
+	Box boxv, boxv1, boxv2, boxh1, boxh2;
+	JLabel lb1, lb2, lb3;
+	JTextField tf1, tf2, tf3;
+	JButton bt;
+	MyListener lis;
+	
+	public calFrame(){
+		setBounds(100,100,310,260);
+		setLayout(new FlowLayout());
+		init();
+		setVisible(true);
+		setTitle("MyWin");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	void init(){
+		boxv1 = Box.createVerticalBox();
+		lb1 = new JLabel("number 1: ");
+		lb2 = new JLabel("number 2: ");
+		lb3 = new JLabel("result: ");
+		boxv1.add(lb1);
+		boxv1.add(lb2);
+		boxv1.add(lb3);
+		
+		boxv2 = Box.createVerticalBox();
+		tf1 = new JTextField(10);
+		tf2 = new JTextField(10);
+		tf3 = new JTextField(10);
+		boxv2.add(tf1);
+		boxv2.add(tf2);
+		boxv2.add(tf3);
+		
+		boxh1 = Box.createHorizontalBox();
+		boxh1.add(boxv1);
+		boxh1.add(boxv2);
+		
+		boxh2 = Box.createHorizontalBox();
+		bt = new JButton("Mutiply");
+		boxh2.add(bt);
+		
+		boxv = Box.createVerticalBox();
+		boxv.add(boxh1);
+		boxv.add(boxh2);
+		
+		add(boxv);
+		
+		lis = new MyListener();
+		bt.addActionListener(lis);
+	}
+	
+	class MyListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			double num1 = Double.parseDouble(tf1.getText());
+			double num2 = Double.parseDouble(tf2.getText());
+			tf3.setText(String.valueOf(num1*num2));
+		}
+	}
+}
+
+public class note{
+	public static void main(String [] args){
+		calFrame win = new calFrame();
+	}
+}
+```
+
+## 10. 输入输出流
+
+### 10.1 对象流
 
 ```java
 import java.io.*;
-
 try{
     //从文件读入对象
     File file = new File("out/file.txt");

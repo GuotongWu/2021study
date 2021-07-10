@@ -1,6 +1,6 @@
 #pragma once
 #include<GL/glut.h>
-#include<iostream>
+#include<stdio.h>
 
 #define BMP_Header_Length 54
 
@@ -120,7 +120,7 @@ GLuint load_texture(const char* file_name)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
-		GL_BGR_EXT, GL_UNSIGNED_BYTE, pixels);
+		0x80E0, GL_UNSIGNED_BYTE, pixels);
 	glBindTexture(GL_TEXTURE_2D, lastTextureID);  //恢复之前的纹理绑定
 	free(pixels);
 	return texture_ID;

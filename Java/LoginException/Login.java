@@ -7,7 +7,7 @@ public class Login {
         usrname = name;
         password = psword;
     }
-    public void throwException(String psword) throws MyException{
+    public void isCorrect(String psword) throws MyException{
         if(!psword.equals(password))
             throw new MyException("password incorrect");
     }

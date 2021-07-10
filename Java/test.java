@@ -1,30 +1,11 @@
-interface aaa{
-    void speak();
-    void say();
-}
+import java.util.Arrays;
 
-abstract class hello implements aaa{
-    public abstract void speak();
-    // abstract void say();
+class hhh{
+    int n = 0;
+    hhh(int b){ n = b;}
 }
-
-interface dd{}
 public class test{
-    static void te(){
-        hello testhello = new hello(){
-            public void speak(){
-                System.out.println("hello");
-            }
-            public void say(){}
-        };
-        testhello.speak();
-
-        dd DD = new dd(){
-
-            static float p = 2.5f;
-        };
-    }
     public static void main(String[] args) {
-        te();
+        hhh h = new hhh();
     }
 }

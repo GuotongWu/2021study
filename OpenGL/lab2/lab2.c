@@ -1,6 +1,8 @@
+#include<windows.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include <stdbool.h>
 #include"lab2.h"
 
 #include<GL/glut.h>
