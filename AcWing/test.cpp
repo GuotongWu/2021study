@@ -1,7 +1,10 @@
 #include<iostream>
+#include<cstring>
 using namespace std;
 
+int g[10][10];
+
 int main(){
-    cout<<"Hello World!"<<endl;
-    return 0;
+   string x = "123";
+   cout<<x.size()<<endl;
 }

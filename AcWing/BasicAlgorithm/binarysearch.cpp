@@ -6,6 +6,7 @@ const int N = 1e5;
 int a[N], b[N];
 int n;
 
+// 寻找左边小于等于目标值的最大值
 int bin_search1(int num[], int l, int r, int t){
     if(l >= r)
         return -1;
@@ -19,6 +20,7 @@ int bin_search1(int num[], int l, int r, int t){
     return l;
 }
 
+// 寻找右边大于等于目标值的最小值
 int bin_search2(int num[], int l, int r, int t){
     if(l >= r)
         return -1;
@@ -38,7 +40,9 @@ int main(){
     for(int i=0; i<n; ++i){
         scanf("%d", &a[i]);
         b[i] = a[i];
+        printf("%d ",a[i]);
     }
-    
+    cout<<endl<<bin_search1(a, 0, n-1, 3);
+    cout<<endl<<bin_search2(a, 0, n-1, 3);
     return 0;
 }
