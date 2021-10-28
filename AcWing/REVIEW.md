@@ -1,14 +1,7 @@
-# 计算机专业课复习
+# 一、计算机专业课复习
 
 ## 1. 数据结构与算法
 
-### 1.1 [Dijkstra最短路径算法](https://zhuanlan.zhihu.com/p/338414118)
-
-1. 初始化一个visited数组代表是否访问，一个res数组代表从当前结点出发到其他结点的距离
-2. 将第一个结点visited标记为1
-3. 每次循环，选取visited为0（没有访问），且到当前结点路径最短的结点。对其他所有未访问的结点，更新res，`res[k] = min(res[k], res[minPos]+graph[minPos][k])`
-
-[代码](./AcWing/Others/dijkstra.cpp)
 
 ## 2. 操作系统
 
@@ -29,3 +22,16 @@
 ### 5.2 [指针和地址的区别]([(16条消息) 指针 & 地址的联系和区别_weixin_34015336的博客-CSDN博客](https://blog.csdn.net/weixin_34015336/article/details/88915625?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control))
 
 地址是字节编号，是一串16进制的数组；指针是保存地址的变量。
+
+# 二、数学专业课复习
+
+## 1. 微积分
+
+### 1.1 多元函数的泰勒展开
+
+[多元泰勒解释](https://zhuanlan.zhihu.com/p/110146436)
+
+## 2. 线性代数
+
+### 2.1 范数
+

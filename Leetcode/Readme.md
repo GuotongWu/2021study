@@ -41,7 +41,6 @@ v.erase(v.begin()); // 删除指定位置的元素
 # 4. 离散化
 
 ```cpp
-
 vector<int> alls; // 存储所有待离散化的值
 sort(alls.begin(), alls.end()); // 将所有值排序
 alls.erase(unique(alls.begin(), alls.end()), alls.end());   // 去掉重复元素
