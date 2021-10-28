@@ -31,3 +31,7 @@ META-INF
 *.exe
 images
 test.tex
+
+*.gz
+*.pt
+*ubyte
