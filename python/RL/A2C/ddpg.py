@@ -1,4 +1,6 @@
 from collections import deque
+
+from torch._C import _add_docstr
 from a2c import Actor, Critic
 import random
 import torch
@@ -25,15 +27,20 @@ class Buffer():
 class DDPG():
     def __init__(self, n_state, n_action, cfg):
         self.cfg = cfg
-        self.actor = Actor(n_state, n_action, cfg.actor_hidden_dim)
-        self.critic = Critic(n_state, n_action, cfg.critic_hidden_dim)
-        self.target_actor = Actor(n_state, n_action, cfg.actor_hidden_dim)
-        self.target_critic = Critic(n_state, n_action, cfg.critic_hidden_dim)
-        self.actor_optim = optim.Adam(self.actor.parameters(), lr=cfg.learning_rate)
-        self.critic_optim = optim.Adam(self.critic.parameters(), lr=cfg.learning_rate)
+        self.actor = Actor(n_state, n_action, cfg.actor_hidden_dim).to(cfg.device)
+        self.critic = Critic(n_state, n_action, cfg.critic_hidden_dim).to(cfg.device)
+        self.target_actor = Actor(n_state, n_action, cfg.actor_hidden_dim).to(cfg.device)
+        self.target_critic = Critic(n_state, n_action, cfg.critic_hidden_dim).to(cfg.device)
+        self.actor_optim = optim.Adam(self.actor.parameters(), lr=cfg.lr_actor)
+        self.critic_optim = optim.Adam(self.critic.parameters(), lr=cfg.lr_critic)
+
+        for param , target_param in zip(self.actor.parameters(), self.target_actor.parameters()):
+            target_param.data.copy_(param.data)
+        for param , target_param in zip(self.critic.parameters(), self.target_critic.parameters()):
+            target_param.data.copy_(param.data)
 
     def choose_action(self, state):
-        state = torch.FloatTensor(state)
+        state = torch.FloatTensor(state).to(self.cfg.device)
         action = self.actor(state)
         return action.detach().cpu().numpy()
 
@@ -74,6 +81,11 @@ class DDPG():
                 target_param.data * (1 - self.cfg.tau) + param.data * self.cfg.tau
             )
 
+    def save(self, path):
+        torch.save(self.actor.state_dict(), path)
+
+    def load(self, path):
+        self.actor.load_state_dict(torch.load(path))
 
 class OrnsteinUhlenbeckActionNoise():
     def __init__(self, n_action):
@@ -90,14 +102,14 @@ class OrnsteinUhlenbeckActionNoise():
         self.pre_x = x
         return x
         
-    def set_action(self, low_bound, high_bound): # 将结果固定在action_space定义域中
+    def set_action(self, action, low_bound, high_bound): # 将结果固定在action_space定义域中
         x = self.add_noisy()
-        return np.clip(x, low_bound, high_bound)
+        action += x
+        return np.clip(action, low_bound, high_bound)
 
 if __name__ == "__main__":
     noisy = OrnsteinUhlenbeckActionNoise(1)
-    record = []
-    for i in range(1000):
-        record.append(noisy.set_action(-2.0, 2.0))
-    plt.plot(range(i+1), record)
-    plt.show()
+    action = np.arange(-2, 2, 0.001)
+    action = noisy.set_action(action, -2.0, 2.0)
+    plt.plot(range(action.shape[0]), action)
+    plt.savefig('nosiy_test.jpg')
